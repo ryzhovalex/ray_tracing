@@ -1,4 +1,4 @@
-project "WalnutApp"
+project "ray_tracing"
    kind "ConsoleApp"
    language "C++"
    cppdialect "C++17"
@@ -15,7 +15,7 @@ project "WalnutApp"
 
       "../Walnut/Walnut/src",
 
-      "%{IncludeDir.VulkanSDK}",
+      "%{IncludeDir.VulkanSDK}"
    }
 
    links
