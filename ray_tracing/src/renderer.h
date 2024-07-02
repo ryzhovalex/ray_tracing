@@ -2,6 +2,7 @@
 
 #include <memory>
 #include "Walnut/Image.h"
+#include "glm/vec2.hpp"
 
 class Renderer
 {
@@ -16,4 +17,6 @@ public:
 private:
 	std::shared_ptr<Walnut::Image> final_img;
 	uint32_t* img_data = nullptr;
+
+	uint32_t per_pixel(glm::vec2 coord);
 };
