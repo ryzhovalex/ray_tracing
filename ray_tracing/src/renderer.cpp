@@ -7,7 +7,9 @@ void Renderer::resize(uint32_t width, uint32_t height)
 	if (final_img)
 	{
 		// no resize necessary
-		if (width == final_img->GetWidth() && height == final_img->GetHeight())
+		if (
+			width == final_img->GetWidth()
+			&& height == final_img->GetHeight())
 		{
 			return;
 		}
@@ -29,7 +31,7 @@ void Renderer::render()
 	// through x?)
 	for (uint32_t y = 0; y < final_img->GetHeight(); y++)
 	{
-		for (uint32_t x = 0; x < final_img->GetHeight(); x++)
+		for (uint32_t x = 0; x < final_img->GetWidth(); x++)
 		{
 			glm::vec2 coord = {
 				(float)x / (float)final_img->GetWidth(),
@@ -43,5 +45,10 @@ void Renderer::render()
 
 uint32_t Renderer::per_pixel(glm::vec2 coord)
 {
-	return 0xffff00ff;
+	auto r = (uint8_t)(coord.x * 255.0f);
+	auto g = (uint8_t)(coord.y * 255.0f);
+	// rgba has 8 bits per color channel, so full rgba is 32 bits per pixel,
+	// in this case we use abgr (reversed)
+	// alpha=ff + blue = 00 + shifted left green + red
+	return 0xff000000 | (g << 8) | r;
 }

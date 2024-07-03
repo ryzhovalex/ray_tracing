@@ -18,15 +18,21 @@ public:
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 		ImGui::Begin("Viewport");
+
 		viewport_width = ImGui::GetContentRegionAvail().x;
 		viewport_height = ImGui::GetContentRegionAvail().y;
+
 		auto img = renderer.get_final_img();
 		if (img)
 		{
 			ImGui::Image(
 				img->GetDescriptorSet(),
-				{ (float)img->GetWidth(), (float)img->GetHeight() });
+				{ (float)img->GetWidth(), (float)img->GetHeight() },
+				// invert UV coords
+				ImVec2(0, 1),
+				ImVec2(1, 0));
 		}
+
 		ImGui::End();
 		ImGui::PopStyleVar();
 
@@ -49,19 +55,10 @@ public:
 		//		(b_x^2 + b_y^2 + b_z^2) * t^2 + (2 * a_x * b_x + 2 * a_y * b_y + 2 * a_z * b_z) * t + (a_x^2 + a_y^2 + a_z^2 - r^2) = 0                  
 	}
 
-	int get_screen_center_cord(int len)
-	{
-		if (len % 2 == 0)
-		{
-			return ((int)len / 2) - 1;
-		}
-		return ((int)len / 2) + 1;
-	}
-
 private:
 	Renderer renderer;
-	int viewport_width;
-	int viewport_height;
+	uint32_t viewport_width = 0;
+	uint32_t viewport_height = 0;
 	float last_render_time;
 };
 
